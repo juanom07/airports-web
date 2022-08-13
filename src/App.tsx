@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './index.css';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { airportsResponse } from './mocks/airports';
 import { getAirports } from './services/http'
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import { Wrapper } from "@googlemaps/react-wrapper";
+import { calcCrow, middlePoint } from './utils/helpers'
 
 interface Airport {
   icao_code: string,
@@ -15,44 +14,6 @@ interface Airport {
   name: string,
   lat: number
 }
-
-//This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in nmi)
-function calcCrow(lat1: number, lon1: number, lat2: number, lon2: number) 
-{
-  var R = 6371; // km
-  var dLat = toRad(lat2-lat1);
-  var dLon = toRad(lon2-lon1);
-  var lat1R = toRad(lat1);
-  var lat2R = toRad(lat2);
-
-  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1R) * Math.cos(lat2R); 
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-  var d = R * c;
-  return d / 0.539957;
-}
-
-// Converts numeric degrees to radians
-function toRad(Value: number) 
-{
-    return Value * Math.PI / 180;
-}
-
-function middlePoint(lat1: number, lng1: number, lat2: number, lng2: number){
-  var dLng = toRad((lng2 - lng1));
-
-  lat1 = toRad(lat1);
-  lat2 = toRad(lat2);
-  lng1 = toRad(lng1);
-
-  var bX = Math.cos(lat2) * Math.cos(dLng);
-  var bY = Math.cos(lat2) * Math.sin(dLng);
-  var lat3 = Math.atan2(Math.sin(lat1) + Math.sin(lat2), Math.sqrt((Math.cos(lat1) + bX) * (Math.cos(lat1) + bX) + bY * bY));
-  var lng3 = lng1 + Math.atan2(bY, Math.cos(lat1) + bX);
-
-  return {lat: lat3 * 180 / Math.PI, lng: lng3 * 180 / Math.PI};
-}
-
 
 function App() {
   const [usAirports, setUsAirports] = useState<Airport[] | []>([]);
@@ -69,13 +30,8 @@ function App() {
   const [markerFrom, setMarkerFrom] = useState<google.maps.Marker>();
   const [markerTo, setMarkerTo] = useState<google.maps.Marker>();
   
-
   useEffect(() => {
-    if (valueFrom && valueTo) {
-      // Calcular distancia
-      const cal = calcCrow(valueFrom.lat, valueFrom.lng, valueTo.lat, valueTo.lng);
-      setDistance(cal)
-      
+    if (valueFrom) {
       markerFrom && (markerFrom as google.maps.Marker).setMap(null)
       const positionFrom = new google.maps.LatLng(valueFrom.lat, valueFrom.lng)
       setMarkerFrom(new google.maps.Marker({
@@ -84,26 +40,46 @@ function App() {
           label: 'F',
           title: valueFrom.name,
       }));
-      
+    }else{
+      markerFrom && (markerFrom as google.maps.Marker).setMap(null)
+      line && (line as google.maps.Polyline).setMap(null)
+    }
+  }, [valueFrom]);
+
+  useEffect(() => {
+    if (valueTo) {
       markerTo && (markerTo as google.maps.Marker).setMap(null)
-      const positionTo = new google.maps.LatLng(valueTo.lat, valueTo.lng)
+      const positionFrom = new google.maps.LatLng(valueTo.lat, valueTo.lng)
       setMarkerTo(new google.maps.Marker({
-        position: positionTo,
+        position: positionFrom,
           map: map,
           label: 'T',
           title: valueTo.name,
       }));
+    }else{
+      markerTo && (markerTo as google.maps.Marker).setMap(null)
+      line && (line as google.maps.Polyline).setMap(null)
+    }
+  }, [valueTo]);
+
+  useEffect(() => {
+    if (valueFrom && valueTo) {
+      const cal = calcCrow(valueFrom.lat, valueFrom.lng, valueTo.lat, valueTo.lng);
+      setDistance(cal)
+      
+      const positionFrom = new google.maps.LatLng(valueFrom.lat, valueFrom.lng)
+      const positionTo = new google.maps.LatLng(valueTo.lat, valueTo.lng)
       
       const newCenter: any = middlePoint(valueFrom.lat, valueFrom.lng, valueTo.lat, valueTo.lng);
       (map as google.maps.Map).setCenter(new google.maps.LatLng(newCenter.lat, newCenter.lng));
-      
+
       line && (line as google.maps.Polyline).setMap(null)
       var newLine = new google.maps.Polyline({
           path: [positionFrom, positionTo],
           geodesic: true,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 2
+          strokeColor: '#000000',
+          strokeOpacity: 0.8,
+          strokeWeight: 3
       });
 
       newLine.setMap(map as google.maps.Map);
@@ -114,12 +90,15 @@ function App() {
   }, [valueFrom, valueTo]);
 
   useEffect(() => {
-    const mapa = new window.google.maps.Map(document.getElementById('map') as HTMLElement, {
-      center,
-      zoom: 4,
-    });
-
-    setMap(mapa);
+    const domMap = document.getElementById('map');
+    if (domMap){
+      const mapa = new window.google.maps.Map(domMap as HTMLElement, {
+        center,
+        zoom: 4,
+      });
+  
+      setMap(mapa);
+    }
 
     const data: Airport[]  = getAirports();
 
@@ -131,7 +110,7 @@ function App() {
   const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
   return (
     <div className="flex flex-col p-20 h-screen">
-      <h1 className="text-xl">Airports Search</h1>
+      <h1 className="text-3xl ml-6 font-bold">Airports Search</h1>
       <div className="flex justify-between mt-12 h-full">
       <div className="w-1/3 text-white mr-8 p-4 rounded-xl flex flex-col">
         <Autocomplete
@@ -168,15 +147,13 @@ function App() {
           renderInput={(params) => <TextField {...params} label="To" />}
         />
         {distance && <div className="text-black mt-8 w-full">
-        <p>Distance between this two airports is {distance.toFixed(2)} nmi</p>
+        <p>Distance between <strong>{(valueFrom as Airport).name}</strong> and <strong>{(valueTo as Airport).name}</strong> is <strong>{distance.toFixed(2)}</strong> nmi</p>
       </div>}        
       </div>
       
       <div className="w-2/3 h-5/6 border border-black text-white ml-8 p-20 rounded-xl" id="map">
       <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
         <div id="map"></div>
-        {/* <Marker position={new google.maps.LatLng(39.7578721, -101.4895165)} /> */}
-
       </Wrapper>
       </div>
       </div>
