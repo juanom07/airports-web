@@ -83,8 +83,7 @@ function App() {
 
   useEffect(() => {
     const domMap = document.getElementById('map');
-    console.log(domMap)
-    if (domMap && usAirports.length === 0){
+    if (usAirports.length > 0 && domMap){
       const mapa = new window.google.maps.Map(domMap as HTMLElement, {
         center,
         zoom: 4,
@@ -92,15 +91,16 @@ function App() {
   
       setMap(mapa);
     }
-
-    const data: Airport[]  = getAirports();
-    setUsAirports(data);
+  }, [usAirports]);
+  
+  useEffect(() => {
+    getAirportsFromApi();
   }, []);
 
-  // const getAirportsFromApi = async () => {
-  //   const data: Airport[]  = await getAirports();
-  //   setUsAirports(data);
-  // }
+  const getAirportsFromApi = async () => {
+    const data: Airport[]  = await getAirports();
+    setUsAirports(data);
+  }
 
   const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
   return (
@@ -147,9 +147,9 @@ function App() {
       </div>
       
       <div className="w-2/3 h-5/6 border border-black text-white ml-8 p-20 rounded-xl" id="map">
-      <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
+      {usAirports && <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
         <div id="map"></div>
-      </Wrapper>
+      </Wrapper>}
       </div>
       </div>
     </div>
