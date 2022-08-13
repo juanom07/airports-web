@@ -21,6 +21,9 @@ function App() {
   const [line, setLine] = useState<google.maps.Polyline>();
   const [markerFrom, setMarkerFrom] = useState<google.maps.Marker>();
   const [markerTo, setMarkerTo] = useState<google.maps.Marker>();
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
   
   useEffect(() => {
     if (valueFrom) {
@@ -36,7 +39,7 @@ function App() {
       markerFrom && (markerFrom as google.maps.Marker).setMap(null)
       line && (line as google.maps.Polyline).setMap(null)
     }
-  }, [valueFrom]);
+  }, [line, map, markerFrom, valueFrom]);
 
   useEffect(() => {
     if (valueTo) {
@@ -52,7 +55,7 @@ function App() {
       markerTo && (markerTo as google.maps.Marker).setMap(null)
       line && (line as google.maps.Polyline).setMap(null)
     }
-  }, [valueTo]);
+  }, [line, map, markerTo, valueTo]);
 
   useEffect(() => {
     if (valueFrom && valueTo) {
@@ -79,7 +82,7 @@ function App() {
     }else{
       setDistance(null)
     }
-  }, [valueFrom, valueTo]);
+  }, [line, map, valueFrom, valueTo]);
 
   useEffect(() => {
     const domMap = document.getElementById('map');
@@ -91,7 +94,7 @@ function App() {
   
       setMap(mapa);
     }
-  }, [usAirports]);
+  }, [center, usAirports]);
 
   useEffect(() => {
     getAirportsFromApi();
@@ -102,7 +105,6 @@ function App() {
     setUsAirports(data);
   }
 
-  const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
   return (
     <div className="flex flex-col p-20 h-screen">
       <h1 className="text-3xl ml-6 font-bold">Airports distance calculator</h1>
