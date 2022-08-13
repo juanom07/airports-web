@@ -36,6 +36,7 @@ function App() {
     }else{
       markerFrom && (markerFrom as google.maps.Marker).setMap(null)
       line && (line as google.maps.Polyline).setMap(null)
+      setDistance(null)
     }
   }, [valueFrom]);
 
@@ -52,6 +53,7 @@ function App() {
     }else{
       markerTo && (markerTo as google.maps.Marker).setMap(null)
       line && (line as google.maps.Polyline).setMap(null)
+      setDistance(null)
     }
   }, [valueTo]);
 
@@ -142,7 +144,7 @@ function App() {
           sx={{ width: '100%' }}
           renderInput={(params) => <TextField {...params} label="To" />}
         />
-        {distance && <div className="text-black mt-8 w-full">
+        {distance && valueFrom && valueTo && <div className="text-black mt-8 w-full">
         <p>Distance between <strong>{(valueFrom as Airport).name}</strong> and <strong>{(valueTo as Airport).name}</strong> is <strong>{distance.toFixed(2)}</strong> nmi</p>
       </div>}        
       </div>
