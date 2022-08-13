@@ -4,16 +4,8 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { getAirports } from './services/http'
 import { Wrapper } from "@googlemaps/react-wrapper";
-import { calcCrow, middlePoint } from './utils/helpers'
-
-interface Airport {
-  icao_code: string,
-  country_code: string,
-  iata_code: string,
-  lng: number,
-  name: string,
-  lat: number
-}
+import { calcCrow, middlePoint } from './utils/helpers';
+import { Airport } from './interfaces/airport';
 
 function App() {
   const [usAirports, setUsAirports] = useState<Airport[] | []>([]);
@@ -74,7 +66,7 @@ function App() {
       (map as google.maps.Map).setCenter(new google.maps.LatLng(newCenter.lat, newCenter.lng));
 
       line && (line as google.maps.Polyline).setMap(null)
-      var newLine = new google.maps.Polyline({
+      const newLine = new google.maps.Polyline({
           path: [positionFrom, positionTo],
           geodesic: true,
           strokeColor: '#000000',
@@ -91,7 +83,8 @@ function App() {
 
   useEffect(() => {
     const domMap = document.getElementById('map');
-    if (domMap){
+    console.log(domMap)
+    if (domMap && usAirports.length === 0){
       const mapa = new window.google.maps.Map(domMap as HTMLElement, {
         center,
         zoom: 4,
@@ -101,11 +94,13 @@ function App() {
     }
 
     const data: Airport[]  = getAirports();
-
     setUsAirports(data);
   }, []);
 
-
+  // const getAirportsFromApi = async () => {
+  //   const data: Airport[]  = await getAirports();
+  //   setUsAirports(data);
+  // }
 
   const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
   return (

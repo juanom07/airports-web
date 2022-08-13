@@ -1,4 +1,4 @@
-export function calcCrow(lat1: number, lon1: number, lat2: number, lon2: number) {
+export const calcCrow = (lat1: number, lon1: number, lat2: number, lon2: number) => {
   var R = 6371; // km
   var dLat = toRad(lat2 - lat1);
   var dLon = toRad(lon2 - lon1);
@@ -12,7 +12,7 @@ export function calcCrow(lat1: number, lon1: number, lat2: number, lon2: number)
   return d / 0.539957;
 }
 
-export function middlePoint(lat1: number, lng1: number, lat2: number, lng2: number) {
+export const middlePoint = (lat1: number, lng1: number, lat2: number, lng2: number) => {
   var dLng = toRad((lng2 - lng1));
 
   lat1 = toRad(lat1);
@@ -26,10 +26,10 @@ export function middlePoint(lat1: number, lng1: number, lat2: number, lng2: numb
 
   return { lat: toDeg(lat3), lng: toDeg(lng3) };
 }
-function toRad(value: number) {
+const toRad = (value: number) => {
   return value * Math.PI / 180;
 }
 
-function toDeg(value: number) {
+const toDeg = (value: number) => {
   return value * 180 / Math.PI;
 }
