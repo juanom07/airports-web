@@ -92,7 +92,7 @@ function App() {
       setMap(mapa);
     }
   }, [usAirports]);
-  
+
   useEffect(() => {
     getAirportsFromApi();
   }, []);
@@ -105,7 +105,7 @@ function App() {
   const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
   return (
     <div className="flex flex-col p-20 h-screen">
-      <h1 className="text-3xl ml-6 font-bold">Airports Search</h1>
+      <h1 className="text-3xl ml-6 font-bold">Airports distance calculator</h1>
       <div className="flex justify-between mt-12 h-full">
       <div className="w-1/3 text-white mr-8 p-4 rounded-xl flex flex-col">
         <Autocomplete
