@@ -86,7 +86,7 @@ function App() {
 
   useEffect(() => {
     const domMap = document.getElementById('map');
-    if (usAirports.length > 0 && domMap){
+    if (usAirports.length > 0 && !map && domMap){
       const mapa = new window.google.maps.Map(domMap as HTMLElement, {
         center,
         zoom: 4,
@@ -94,7 +94,7 @@ function App() {
   
       setMap(mapa);
     }
-  }, [usAirports]);
+  }, [usAirports, map]);
 
   useEffect(() => {
     getAirportsFromApi();
@@ -158,11 +158,11 @@ function App() {
             } 
         </div>
         
-        <div className="md:w-2/3 border border-black text-white md:ml-8 p-20 md:mt-0 mt-4 rounded-xl md:h-full h-1/2">
-        {usAirports && <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
+        <div className="md:w-2/3 border border-black text-white md:ml-8 p-20 md:mt-0 mt-4 rounded-xl md:h-full h-1/2" id="map">
+        {usAirports.length > 0 && <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
           <div id="map"></div>
         </Wrapper>}
-      </div>
+        </div>
       </div>
     </div>
   );
