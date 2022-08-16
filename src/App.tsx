@@ -107,51 +107,61 @@ function App() {
 
   const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
   return (
-    <div className="flex flex-col md:p-20 p-5 h-screen">
-      <h1 className="md:text-3xl text-2xl font-bold">Airports distance calculator</h1>
-      <div className="md:flex md:justify-between md:mt-12 mt-4 h-full">
-      <div className="md:w-1/3 w-full text-white py-4 mb-2 rounded-xl flex flex-col">
-        <Autocomplete
-          className=""
-          onChange={(event: any, newValue: any) => {
-            setValueFrom(newValue);
-          }}
-          value={valueFrom}
-          inputValue={inputValue} 
-          onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
-          }}
-          id="airport-from"
-          options={usAirports}    
-          getOptionLabel={ (option: string | Airport) => `${(option as Airport).iata_code || 'IATA Code'} - ${(option as Airport).name || 'Airport Name'}`}
-          sx={{ width: '100%' }}
-          renderInput={(params) => <TextField {...params} label="From" />}
-        />
-        <Autocomplete
-          className="mt-10 w-full"
-          value={valueTo}
-          onChange={(event: any, newValue: any) => {
-            setValueTo(newValue);
-          }}
-          inputValue={inputValueTo}
-          onInputChange={(event, newInputValue) => {
-            setInputValueTo(newInputValue);
-          }}
-          id="airport-to"
-          options={usAirports}
-          getOptionLabel={ (option: string | Airport) => `${(option as Airport).iata_code || 'IATA Code'} - ${(option as Airport).name || 'Airport Name'}`}
-          sx={{ width: '100%' }}
-          renderInput={(params) => <TextField {...params} label="To" />}
-        />
-        {distance && valueFrom && valueTo && <div className="text-black mt-8 w-full">
-        <p>Distance between <strong>{(valueFrom as Airport).name}</strong> and <strong>{(valueTo as Airport).name}</strong> is <strong>{distance.toFixed(2)}</strong> nmi</p>
-      </div>}        
-      </div>
-      
-      <div className="md:w-2/3 h-5/6 border border-black text-white md:ml-8 p-20 rounded-xl" id="map">
-      {usAirports && <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
-        <div id="map"></div>
-      </Wrapper>}
+    <div className="flex flex-col md:p-20 p-5 h-screen bg-dark-blue md:items-start items-center">
+      <h1 className="md:text-3xl text-2xl font-bold text-white">Airports distance calculator</h1>
+      <div className="md:flex md:justify-between md:mt-12 mt-4 h-full w-full">
+        <div className="md:w-1/3 w-full text-white flex flex-col ">
+          <div className="rounded-xl bg-white p-4">
+            <Autocomplete
+              className=""
+              onChange={(event: any, newValue: any) => {
+                setValueFrom(newValue);
+              }}
+              value={valueFrom}
+              inputValue={inputValue} 
+              onInputChange={(event, newInputValue) => {
+                setInputValue(newInputValue);
+              }}
+              id="airport-from"
+              options={usAirports}    
+              getOptionLabel={ (option: string | Airport) => `${(option as Airport).iata_code || 'IATA Code'} - ${(option as Airport).name || 'Airport Name'}`}
+              sx={{ width: '100%' }}
+              renderInput={(params) => <TextField {...params} label="From" />}
+            />
+            <Autocomplete
+              className="mt-10 w-full"
+              value={valueTo}
+              onChange={(event: any, newValue: any) => {
+                setValueTo(newValue);
+              }}
+              inputValue={inputValueTo}
+              onInputChange={(event, newInputValue) => {
+                setInputValueTo(newInputValue);
+              }}
+              id="airport-to"
+              options={usAirports}
+              getOptionLabel={ (option: string | Airport) => `${(option as Airport).iata_code || 'IATA Code'} - ${(option as Airport).name || 'Airport Name'}`}
+              sx={{ width: '100%' }}
+              renderInput={(params) => <TextField {...params} label="To" />}
+            />
+            
+          </div>
+            {distance && valueFrom && valueTo && 
+              <div className="rounded-xl mt-4 bg-white p-4">
+                <div className="text-dark-blue w-full">
+                  <p className="mb-2 text-xl font-bold">Distance information:</p>
+                  <p className="ml-4"><strong>From:</strong> {(valueFrom as Airport).name}</p>
+                  <p className="ml-4"><strong>To:</strong> {(valueTo as Airport).name}</p>
+                  <p className="ml-4"><strong>NMI:</strong> {distance.toFixed(2)}</p>
+                </div>
+              </div>
+            } 
+        </div>
+        
+        <div className="md:w-2/3 border border-black text-white md:ml-8 p-20 md:mt-0 mt-4 rounded-xl md:h-full h-1/2">
+        {usAirports && <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
+          <div id="map"></div>
+        </Wrapper>}
       </div>
       </div>
     </div>
