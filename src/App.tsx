@@ -7,7 +7,7 @@ import { getAirports } from './services/http'
 import { Wrapper } from "@googlemaps/react-wrapper";
 import { calcCrow, middlePoint } from './utils/helpers';
 import { Airport } from './interfaces/airport';
-
+import airplane from './assets/airplane.png';
 function App() {
   const [usAirports, setUsAirports] = useState<Airport[] | []>([]);
   
@@ -30,8 +30,8 @@ function App() {
       setMarkerFrom(new google.maps.Marker({
         position: positionFrom,
           map: map,
-          label: 'F',
           title: valueFrom.name,
+          icon: airplane,
       }));
     }else{
       markerFrom && (markerFrom as google.maps.Marker).setMap(null)
@@ -47,8 +47,8 @@ function App() {
       setMarkerTo(new google.maps.Marker({
         position: positionFrom,
           map: map,
-          label: 'T',
           title: valueTo.name,
+          icon: airplane,
       }));
     }else{
       markerTo && (markerTo as google.maps.Marker).setMap(null)
@@ -72,9 +72,9 @@ function App() {
       const newLine = new google.maps.Polyline({
           path: [positionFrom, positionTo],
           geodesic: true,
-          strokeColor: '#000000',
+          strokeColor: '#FF0000',
           strokeOpacity: 0.8,
-          strokeWeight: 3
+          strokeWeight: 3,
       });
 
       newLine.setMap(map as google.maps.Map);
@@ -112,7 +112,6 @@ function App() {
       <div className="md:flex md:justify-between md:mt-12 mt-4 h-full">
       <div className="md:w-1/3 w-full text-white py-4 mb-2 rounded-xl flex flex-col">
         <Autocomplete
-          freeSolo
           className=""
           onChange={(event: any, newValue: any) => {
             setValueFrom(newValue);
