@@ -3,18 +3,19 @@ import React, { useEffect, useState } from 'react';
 import './index.css';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { getAirports } from './services/http'
+import { getAirports, getAirportsApi } from './services/http'
 import { Wrapper } from "@googlemaps/react-wrapper";
 import { calcCrow, middlePoint } from './utils/helpers';
-import { Airport } from './interfaces/airport';
+import { Airport, NewAirport } from './interfaces/airport';
 import airplane from './assets/airplane.png';
+
 function App() {
-  const [usAirports, setUsAirports] = useState<Airport[] | []>([]);
+  const [usAirports, setUsAirports] = useState<NewAirport[] | []>([]);
   
-  const [valueFrom, setValueFrom] = useState<Airport | null>(null);
+  const [valueFrom, setValueFrom] = useState<NewAirport | null>(null);
   const [inputValue, setInputValue] = useState('');
   
-  const [valueTo, setValueTo] = useState<Airport | null>(null);
+  const [valueTo, setValueTo] = useState<NewAirport | null>(null);
   const [inputValueTo, setInputValueTo] = useState('');
   
   const [distance, setDistance] = useState<number | null>();
@@ -23,10 +24,18 @@ function App() {
   const [markerFrom, setMarkerFrom] = useState<google.maps.Marker>();
   const [markerTo, setMarkerTo] = useState<google.maps.Marker>();
   
+  const getAirportsOptions = async (term: string, saveData: Function, saveState: Function) => {
+    saveState(term);
+    if (term.length > 2) {
+      const response = await getAirportsApi(term);
+      saveData(response)
+    }
+  }
+
   useEffect(() => {
     if (valueFrom) {
       markerFrom && (markerFrom as google.maps.Marker).setMap(null)
-      const positionFrom = new google.maps.LatLng(valueFrom.lat, valueFrom.lng)
+      const positionFrom = new google.maps.LatLng(parseFloat(valueFrom.latitude), parseFloat(valueFrom.longitude))
       setMarkerFrom(new google.maps.Marker({
         position: positionFrom,
           map: map,
@@ -43,7 +52,7 @@ function App() {
   useEffect(() => {
     if (valueTo) {
       markerTo && (markerTo as google.maps.Marker).setMap(null)
-      const positionFrom = new google.maps.LatLng(valueTo.lat, valueTo.lng)
+      const positionFrom = new google.maps.LatLng(parseFloat(valueTo.latitude), parseFloat(valueTo.longitude))
       setMarkerTo(new google.maps.Marker({
         position: positionFrom,
           map: map,
@@ -59,13 +68,13 @@ function App() {
 
   useEffect(() => {
     if (valueFrom && valueTo) {
-      const cal = calcCrow(valueFrom.lat, valueFrom.lng, valueTo.lat, valueTo.lng);
+      const cal = calcCrow(parseFloat(valueFrom.latitude), parseFloat(valueFrom.longitude), parseFloat(valueTo.latitude), parseFloat(valueTo.longitude));
       setDistance(cal)
       
-      const positionFrom = new google.maps.LatLng(valueFrom.lat, valueFrom.lng)
-      const positionTo = new google.maps.LatLng(valueTo.lat, valueTo.lng)
+      const positionFrom = new google.maps.LatLng(parseFloat(valueFrom.latitude), parseFloat(valueFrom.longitude))
+      const positionTo = new google.maps.LatLng(parseFloat(valueTo.latitude), parseFloat(valueTo.longitude))
       
-      const newCenter: any = middlePoint(valueFrom.lat, valueFrom.lng, valueTo.lat, valueTo.lng);
+      const newCenter: any = middlePoint(parseFloat(valueFrom.latitude), parseFloat(valueFrom.longitude), parseFloat(valueTo.latitude), parseFloat(valueTo.longitude));
       (map as google.maps.Map).setCenter(new google.maps.LatLng(newCenter.lat, newCenter.lng));
 
       line && (line as google.maps.Polyline).setMap(null)
@@ -86,7 +95,7 @@ function App() {
 
   useEffect(() => {
     const domMap = document.getElementById('map');
-    if (usAirports.length > 0 && !map && domMap){
+    if (!map && domMap){
       const mapa = new window.google.maps.Map(domMap as HTMLElement, {
         center,
         zoom: 4,
@@ -94,16 +103,7 @@ function App() {
   
       setMap(mapa);
     }
-  }, [usAirports, map]);
-
-  useEffect(() => {
-    getAirportsFromApi();
   }, []);
-
-  const getAirportsFromApi = async () => {
-    const data: Airport[]  = await getAirports();
-    setUsAirports(data);
-  }
 
   const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
   return (
@@ -120,11 +120,11 @@ function App() {
               value={valueFrom}
               inputValue={inputValue} 
               onInputChange={(event, newInputValue) => {
-                setInputValue(newInputValue);
+                getAirportsOptions(newInputValue, setUsAirports, setInputValue)
               }}
               id="airport-from"
               options={usAirports}    
-              getOptionLabel={ (option: string | Airport) => `${(option as Airport).iata_code || 'IATA Code'} - ${(option as Airport).name || 'Airport Name'}`}
+              getOptionLabel={ (option: string | NewAirport) => `${(option as NewAirport).iata} - ${(option as NewAirport).name}`}
               sx={{ width: '100%' }}
               renderInput={(params) => <TextField {...params} label="From" />}
             />
@@ -136,11 +136,11 @@ function App() {
               }}
               inputValue={inputValueTo}
               onInputChange={(event, newInputValue) => {
-                setInputValueTo(newInputValue);
+                getAirportsOptions(newInputValue, setUsAirports, setInputValueTo)
               }}
               id="airport-to"
               options={usAirports}
-              getOptionLabel={ (option: string | Airport) => `${(option as Airport).iata_code || 'IATA Code'} - ${(option as Airport).name || 'Airport Name'}`}
+              getOptionLabel={ (option: string | NewAirport) => `${(option as NewAirport).iata} - ${(option as NewAirport).name}`}
               sx={{ width: '100%' }}
               renderInput={(params) => <TextField {...params} label="To" />}
             />
@@ -150,8 +150,8 @@ function App() {
               <div className="rounded-xl mt-4 bg-white p-4">
                 <div className="text-dark-blue w-full">
                   <p className="mb-2 text-xl font-bold">Distance information:</p>
-                  <p className="ml-4"><strong>From:</strong> {(valueFrom as Airport).name}</p>
-                  <p className="ml-4"><strong>To:</strong> {(valueTo as Airport).name}</p>
+                  <p className="ml-4"><strong>From:</strong> {(valueFrom as NewAirport).name}</p>
+                  <p className="ml-4"><strong>To:</strong> {(valueTo as NewAirport).name}</p>
                   <p className="ml-4"><strong>NMI:</strong> {distance.toFixed(2)}</p>
                 </div>
               </div>
@@ -159,9 +159,9 @@ function App() {
         </div>
         
         <div className="md:w-2/3 border border-black text-white md:ml-8 p-20 md:mt-0 mt-4 rounded-xl md:h-full h-1/2" id="map">
-        {usAirports.length > 0 && <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
+        <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
           <div id="map"></div>
-        </Wrapper>}
+        </Wrapper>
         </div>
       </div>
     </div>
