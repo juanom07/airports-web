@@ -108,9 +108,9 @@ function App() {
   const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
   return (
     <div className="flex flex-col md:p-20 p-5 h-screen">
-      <h1 className="text-3xl md:ml-6 font-bold">Airports distance calculator</h1>
+      <h1 className="md:text-3xl text-2xl font-bold">Airports distance calculator</h1>
       <div className="md:flex md:justify-between md:mt-12 mt-4 h-full">
-      <div className="md:w-1/3 w-full text-white mr-8 p-4 rounded-xl flex flex-col">
+      <div className="md:w-1/3 w-full text-white py-4 mb-2 rounded-xl flex flex-col">
         <Autocomplete
           freeSolo
           className=""
