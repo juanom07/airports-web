@@ -3,19 +3,20 @@ import React, { useEffect, useState } from 'react';
 import './index.css';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { getAirports, getAirportsApi } from './services/http'
+import { getAirportsApi } from './services/http'
 import { Wrapper } from "@googlemaps/react-wrapper";
 import { calcCrow, middlePoint } from './utils/helpers';
-import { Airport, NewAirport } from './interfaces/airport';
+import { Airport } from './interfaces/airport';
 import airplane from './assets/airplane.png';
 
 function App() {
-  const [usAirports, setUsAirports] = useState<NewAirport[] | []>([]);
+  const [airportsFrom, setAirportsFrom] = useState<Airport[] | []>([]);
+  const [airportsTo, setAirportsTo] = useState<Airport[] | []>([]);
   
-  const [valueFrom, setValueFrom] = useState<NewAirport | null>(null);
+  const [valueFrom, setValueFrom] = useState<Airport | null>(null);
   const [inputValue, setInputValue] = useState('');
   
-  const [valueTo, setValueTo] = useState<NewAirport | null>(null);
+  const [valueTo, setValueTo] = useState<Airport | null>(null);
   const [inputValueTo, setInputValueTo] = useState('');
   
   const [distance, setDistance] = useState<number | null>();
@@ -120,11 +121,11 @@ function App() {
               value={valueFrom}
               inputValue={inputValue} 
               onInputChange={(event, newInputValue) => {
-                getAirportsOptions(newInputValue, setUsAirports, setInputValue)
+                getAirportsOptions(newInputValue, setAirportsFrom, setInputValue)
               }}
               id="airport-from"
-              options={usAirports}    
-              getOptionLabel={ (option: string | NewAirport) => `${(option as NewAirport).iata} - ${(option as NewAirport).name}`}
+              options={airportsFrom}    
+              getOptionLabel={ (option: string | Airport) => `${(option as Airport).iata} - ${(option as Airport).name}`}
               sx={{ width: '100%' }}
               renderInput={(params) => <TextField {...params} label="From" />}
             />
@@ -136,11 +137,11 @@ function App() {
               }}
               inputValue={inputValueTo}
               onInputChange={(event, newInputValue) => {
-                getAirportsOptions(newInputValue, setUsAirports, setInputValueTo)
+                getAirportsOptions(newInputValue, setAirportsTo, setInputValueTo)
               }}
               id="airport-to"
-              options={usAirports}
-              getOptionLabel={ (option: string | NewAirport) => `${(option as NewAirport).iata} - ${(option as NewAirport).name}`}
+              options={airportsTo}
+              getOptionLabel={ (option: string | Airport) => `${(option as Airport).iata} - ${(option as Airport).name}`}
               sx={{ width: '100%' }}
               renderInput={(params) => <TextField {...params} label="To" />}
             />
@@ -150,8 +151,8 @@ function App() {
               <div className="rounded-xl mt-4 bg-white p-4">
                 <div className="text-dark-blue w-full">
                   <p className="mb-2 text-xl font-bold">Distance information:</p>
-                  <p className="ml-4"><strong>From:</strong> {(valueFrom as NewAirport).name}</p>
-                  <p className="ml-4"><strong>To:</strong> {(valueTo as NewAirport).name}</p>
+                  <p className="ml-4"><strong>From:</strong> {(valueFrom as Airport).name}</p>
+                  <p className="ml-4"><strong>To:</strong> {(valueTo as Airport).name}</p>
                   <p className="ml-4"><strong>NMI:</strong> {distance.toFixed(2)}</p>
                 </div>
               </div>
