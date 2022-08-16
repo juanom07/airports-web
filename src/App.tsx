@@ -107,10 +107,10 @@ function App() {
 
   const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
   return (
-    <div className="flex flex-col p-20 h-screen">
-      <h1 className="text-3xl ml-6 font-bold">Airports distance calculator</h1>
-      <div className="flex justify-between mt-12 h-full">
-      <div className="w-1/3 text-white mr-8 p-4 rounded-xl flex flex-col">
+    <div className="flex flex-col md:p-20 p-5 h-screen">
+      <h1 className="text-3xl md:ml-6 font-bold">Airports distance calculator</h1>
+      <div className="md:flex md:justify-between md:mt-12 mt-4 h-full">
+      <div className="md:w-1/3 w-full text-white mr-8 p-4 rounded-xl flex flex-col">
         <Autocomplete
           freeSolo
           className=""
@@ -149,7 +149,7 @@ function App() {
       </div>}        
       </div>
       
-      <div className="w-2/3 h-5/6 border border-black text-white ml-8 p-20 rounded-xl" id="map">
+      <div className="md:w-2/3 h-5/6 border border-black text-white md:ml-8 p-20 rounded-xl" id="map">
       {usAirports && <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
         <div id="map"></div>
       </Wrapper>}
