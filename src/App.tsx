@@ -29,7 +29,7 @@ function App() {
     saveState(term);
     if (term.length > 2) {
       const response = await getAirportsApi(term);
-      saveData(response)
+      saveData(response || [])
     }
   }
 
