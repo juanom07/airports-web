@@ -9,7 +9,7 @@ export const calcCrow = (lat1: number, lon1: number, lat2: number, lon2: number)
     Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1R) * Math.cos(lat2R);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c;
-  return d / 0.539957;
+  return d / 1.852;
 }
 
 export const middlePoint = (lat1: number, lng1: number, lat2: number, lng2: number) => {
