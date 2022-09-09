@@ -3,8 +3,8 @@ import axios from 'axios';
 const axiosInstance = axios.create({
   baseURL: 'https://www.air-port-codes.com/api/v1/',
   headers: {
-    'APC-Auth': 'ba512207df',
-    'APC-Auth-Secret': '1f7b0c043f6b7e7',
+    'APC-Auth': 'd3ee3dbfb1',
+    'APC-Auth-Secret': '20150f3eed3968e',
   },
 });
 
