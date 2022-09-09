@@ -113,7 +113,7 @@ function App() {
 
   const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
   return (
-    <div className="flex flex-col md:p-20 p-5 h-screen bg-dark-blue md:items-start items-center">
+    <div className="flex flex-col md:p-20 p-5 min-h-screen bg-dark-blue md:items-start items-center">
       <h1 className="md:text-3xl text-2xl font-bold text-white">Airports distance calculator</h1>
       <div className="md:flex md:justify-between md:mt-12 mt-4 h-full w-full">
         <div className="md:w-1/3 w-full text-white flex flex-col ">
@@ -164,7 +164,7 @@ function App() {
             } 
         </div>
         
-        <div className="md:w-2/3 border border-black text-white md:ml-8 p-20 md:mt-0 mt-4 rounded-xl md:h-full h-1/2" id="map">
+        <div className="md:w-2/3 border border-black text-white md:ml-8 p-20 md:mt-0 mt-4 rounded-xl md:h-96 h-1/2" id="map">
         <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
           <div id="map"></div>
         </Wrapper>
