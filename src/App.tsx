@@ -43,6 +43,8 @@ function App() {
           title: valueFrom.name,
           icon: airplane,
       }));
+      (map as google.maps.Map).setCenter(positionFrom);
+      (map as google.maps.Map).setZoom(5);
     }else{
       markerFrom && (markerFrom as google.maps.Marker).setMap(null)
       line && (line as google.maps.Polyline).setMap(null)
@@ -53,13 +55,15 @@ function App() {
   useEffect(() => {
     if (valueTo) {
       markerTo && (markerTo as google.maps.Marker).setMap(null)
-      const positionFrom = new google.maps.LatLng(parseFloat(valueTo.latitude), parseFloat(valueTo.longitude))
+      const positionTo = new google.maps.LatLng(parseFloat(valueTo.latitude), parseFloat(valueTo.longitude))
       setMarkerTo(new google.maps.Marker({
-        position: positionFrom,
+        position: positionTo,
           map: map,
           title: valueTo.name,
           icon: airplane,
       }));
+      (map as google.maps.Map).setCenter(positionTo);
+      (map as google.maps.Map).setZoom(5);
     }else{
       markerTo && (markerTo as google.maps.Marker).setMap(null)
       line && (line as google.maps.Polyline).setMap(null)
