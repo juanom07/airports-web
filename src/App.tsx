@@ -115,9 +115,9 @@ function App() {
   return (
     <div className="flex flex-col md:p-20 p-5 min-h-screen w-full md:items-start items-center">
       <h1 className="md:text-3xl text-2xl font-bold text-black">Airports distance calculator</h1>
-      <div className="md:flex md:justify-between md:mt-12 mt-4 h-full w-full">
+      <div className="md:flex md:justify-between md:mt-12 mt-4 h-full w-full bg-white rounded-xl p-2">
         <div className="md:w-1/3 w-full text-white flex flex-col ">
-          <div className="rounded-xl bg-white p-4 border border-black">
+          <div className="rounded-xl bg-white p-4">
             <Autocomplete
               className=""
               onChange={(event: any, newValue: any) => {
@@ -152,19 +152,17 @@ function App() {
             />
             
           </div>
-            {distance && valueFrom && valueTo && 
-              <div className="rounded-xl mt-4 bg-white p-4 border border-black">
-                <div className="text-dark-blue w-full">
-                  <p className="mb-2 text-xl font-bold">Distance information:</p>
-                  <p className="ml-4"><strong>From:</strong> {(valueFrom as Airport).name}</p>
-                  <p className="ml-4"><strong>To:</strong> {(valueTo as Airport).name}</p>
-                  <p className="ml-4"><strong>NMI:</strong> {distance.toFixed(2)}</p>
-                </div>
+            <div className="rounded-xl mt-4 bg-white p-4">
+              <div className="text-dark-blue w-full">
+                <p className="mb-2 text-xl font-bold">Distance information:</p>
+                <p className="ml-4"><strong>From:</strong> {valueFrom &&(valueFrom as Airport).name}</p>
+                <p className="ml-4"><strong>To:</strong> {valueTo && (valueTo as Airport).name}</p>
+                <p className="ml-4"><strong>NMI:</strong> {distance && distance.toFixed(2)}</p>
               </div>
-            } 
+            </div>
         </div>
         
-        <div className="md:w-2/3 border border-black text-white md:ml-8 p-20 md:mt-0 mt-4 rounded-xl min-h-96" id="map">
+        <div className="md:w-2/3 text-white md:ml-8 p-20 md:mt-0 mt-4 rounded-xl min-h-96" id="map">
         <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
           <div id="map"></div>
         </Wrapper>
