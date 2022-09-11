@@ -8,6 +8,9 @@ import { Wrapper } from "@googlemaps/react-wrapper";
 import { calcCrow, middlePoint } from './utils/helpers';
 import { Airport } from './interfaces/airport';
 import airplane from './assets/airplane.png';
+import { useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+
 
 function App() {
   const [airportsFrom, setAirportsFrom] = useState<Airport[] | []>([]);
@@ -24,6 +27,8 @@ function App() {
   const [line, setLine] = useState<google.maps.Polyline>();
   const [markerFrom, setMarkerFrom] = useState<google.maps.Marker>();
   const [markerTo, setMarkerTo] = useState<google.maps.Marker>();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   
   const getAirportsOptions = async (term: string, saveData: Function, saveState: Function) => {
     saveState(term);
@@ -108,7 +113,7 @@ function App() {
     if (!map && domMap){
       const mapa = new window.google.maps.Map(domMap as HTMLElement, {
         center,
-        zoom: 4,
+        zoom: 4
       });
   
       setMap(mapa);
@@ -117,11 +122,11 @@ function App() {
 
   const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
   return (
-    <div className="flex flex-col md:p-20 p-5 min-h-screen w-full md:items-start items-center">
+    <div className="flex flex-col md:p-20 md:px-5 px-2 pt-5 md:pb-5 p-1 min-h-screen w-full md:items-start items-center">
       <h1 className="md:text-3xl text-2xl font-bold text-black">Airports distance calculator</h1>
-      <div className="md:flex md:justify-between md:mt-12 mt-4 h-full w-full bg-white rounded-xl p-2">
-        <div className="md:w-1/3 w-full text-white flex flex-col ">
-          <div className="rounded-xl bg-white p-4">
+      <div className="flex flex-col md:flex-row md:justify-between md:mt-12 mt-4 h-full w-full bg-white rounded-xl p-1">
+        <div className="md:w-1/3 w-full text-white flex flex-col">
+          <div className="rounded-xl bg-white md:p-4 p-2">
             <Autocomplete
               className=""
               onChange={(event: any, newValue: any) => {
@@ -135,11 +140,10 @@ function App() {
               id="airport-from"
               options={airportsFrom}    
               getOptionLabel={ (option: string | Airport) => `${(option as Airport).iata} - ${(option as Airport).name}`}
-              sx={{ width: '100%' }}
-              renderInput={(params) => <TextField {...params} label="From" />}
+              renderInput={(params) => <TextField {...params} label="From" size={`${isSmallScreen ? 'small' : 'medium'}`}/>}
             />
             <Autocomplete
-              className="mt-10 w-full"
+              className="md:mt-6 mt-4 w-full"
               value={valueTo}
               onChange={(event: any, newValue: any) => {
                 setValueTo(newValue);
@@ -152,11 +156,11 @@ function App() {
               options={airportsTo}
               getOptionLabel={ (option: string | Airport) => `${(option as Airport).iata} - ${(option as Airport).name}`}
               sx={{ width: '100%' }}
-              renderInput={(params) => <TextField {...params} label="To" />}
+              renderInput={(params) => <TextField {...params} label="To" size={`${isSmallScreen ? 'small' : 'medium'}`}/>}
             />
             
           </div>
-            <div className="rounded-xl mt-4 bg-white p-4">
+            <div className="rounded-xl md:mt-4 mt-2 bg-white p-4">
               <div className="text-dark-blue w-full">
                 <p className="mb-2 text-xl font-bold">Distance information:</p>
                 <p className="ml-4"><strong>From:</strong> {valueFrom &&(valueFrom as Airport).name}</p>
@@ -166,7 +170,7 @@ function App() {
             </div>
         </div>
         
-        <div className="md:w-2/3 text-white md:ml-8 p-20 md:mt-0 mt-4 rounded-xl min-h-96" id="map">
+        <div className="md:w-2/3 text-white md:ml-8 p-20 md:mt-0 mt-4 rounded-xl grow" id="map">
         <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
           <div id="map"></div>
         </Wrapper>
