@@ -1,15 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './index.css';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
 import { getAirportsApi } from './services/http'
 import { Wrapper } from "@googlemaps/react-wrapper";
 import { calcCrow, middlePoint } from './utils/helpers';
 import { Airport } from './interfaces/airport';
 import airplane from './assets/airplane.png';
-import { useMediaQuery, CircularProgress } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { Flight, FiberManualRecordOutlined } from '@mui/icons-material';
 import TextFieldWrapper from './components/TextFieldWrapper'
 
