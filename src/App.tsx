@@ -125,8 +125,8 @@ function App() {
 
   const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
   return (
-    <div className="flex flex-col md:p-20 md:px-5 px-2 pt-5 md:pb-5 p-1 min-h-screen w-full md:items-start items-center">
-      <h1 className="md:text-3xl text-2xl font-bold text-black">Airports distance calculator</h1>
+    <div className="flex flex-col md:p-20 md:px-5 px-2 pt-5 md:pb-5 p-1 min-h-screen w-full items-center">
+      <h1 className="md:text-3xl text-2xl font-bold text-black font-inter">Airports distance calculator</h1>
       <div className="flex flex-col md:flex-row md:justify-between md:mt-12 mt-4 md:h-2/3 h-full w-full md:w-2/3 bg-white rounded-xl p-1">
         <div className="md:w-1/3 w-full text-white flex flex-col">
           <div className="rounded-xl bg-white md:p-4 p-2">
@@ -199,9 +199,9 @@ function App() {
           </div>
             <div className="rounded-xl md:mt-4 mt-2 bg-white md:px-4 px-2">
               <div className="text-dark-blue w-full flex flex-col">
-                <p className="mb-2 text-xl font-bold">Distance information:</p>
+                <p className="mb-2 text-xl font-bold font-inter">Distance information:</p>
                 <div className='flex'>
-                  <div className='h-24 md:h-48 w-1/12 flex flex-col items-baseline justify-center'>
+                  <div className='h-24 md:h-36 w-1/12 flex flex-col items-baseline justify-center'>
                     <div className='rounded-full flex ml-0.5 mb-1'>
                       <FiberManualRecordOutlined sx={{color:'grey'}} />
                     </div>
@@ -210,11 +210,11 @@ function App() {
                       <Flight sx={{transform: "rotate(180deg)"}}/>
                     </div>
                   </div>
-                  <div className='h-24 md:h-48 flex flex-col justify-between pl-2'>
-                    <p className="md:text-md text-sm"><strong>From:</strong> {valueFrom &&(valueFrom as Airport).name}</p>
+                  <div className='h-24 md:h-36 flex flex-col justify-between pl-2'>
+                    <p className="md:text-md text-sm font-inter"><strong>From:</strong> {valueFrom &&(valueFrom as Airport).name}</p>
                     <div className='flex flex-col'>
-                      <p className="md:text-md text-sm"><strong>To:</strong> {valueTo && (valueTo as Airport).name}</p>
-                      <p className="md:text-md text-sm"><strong>NMI:</strong> {distance && distance.toFixed(2)}</p>
+                      <p className="md:text-md text-sm font-inter"><strong>To:</strong> {valueTo && (valueTo as Airport).name}</p>
+                      <p className="md:text-md text-sm font-inter"><strong>NMI:</strong> {distance && distance.toFixed(2)}</p>
                     </div>
                   </div>
                 </div>

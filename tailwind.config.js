@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'inter': ['"Inter"', 'sans-serif']
+      },
       colors: {
         'dark-blue': 'rgba(0, 30, 60, 0.9)',
       },
