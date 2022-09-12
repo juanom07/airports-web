@@ -168,7 +168,7 @@ function App() {
         
         <div className={`${isLandscape ? ':w-2/3' : 'w-full'} text-white md:p-20 p-8 md:mt-0 mt-1 rounded-xl grow overflow-hidden`} id="map">
             <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
-              <div id="map"></div>
+              {/* <div id="map"></div> */}
             </Wrapper>
           </div>
       </div>
