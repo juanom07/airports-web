@@ -129,8 +129,8 @@ function App() {
 
   const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
   return (
-    <div className="flex flex-col md:p-20 md:px-5 px-2 pt-5 md:pb-5 p-1 min-h-screen w-full items-center">
-      <div className="flex bg-white rounded-xl flex md:min-h-2/3 h-full w-full md:w-2/3 sm:w-7/8 p-1">
+    <div className="flex flex-col md:px-5 px-2 md:py-8 p-1 min-h-screen w-full items-center">
+      <div className="flex bg-white rounded-xl flex md:min-h-2/3 h-full w-full sm:w-7/8 p-1">
         <div className={`flex ${isLandscape ? 'flex-row' : 'flex-col'} md:justify-between h-full w-full`}>
           <div className={`${isLandscape ? 'w-1/3' : 'w-full'} text-white flex flex-col`}>
             <div className="rounded-xl bg-white px-2 py-1">
@@ -154,8 +154,8 @@ function App() {
               
             </div>
               <div className="rounded-xl md:mt-4 mt-2 bg-white px-2">
-                <div className="text-dark-blue w-full flex flex-col">
-                  <p className="mb-2 text-xl font-bold font-inter">Distance information:</p>
+                <div className="text-black w-full flex flex-col">
+                  <p className="mb-2 text-lg font-bold font-inter">Distance information:</p>
                   <div className='flex'>
                     <div className='h-24 md:h-36 flex flex-col items-baseline justify-center min-w-4'>
                       <div className='rounded-full flex mb-1'>
@@ -166,7 +166,7 @@ function App() {
                         <Flight sx={{transform: "rotate(180deg)"}}/>
                       </div>
                     </div>
-                    <div className='h-24 md:h-36 flex flex-col justify-between pl-2'>
+                    <div className='h-24 md:h-36 flex flex-col justify-between pl-2 mb-2 md:mb-0'>
                       <p className="md:text-md text-sm font-inter"><strong>From:</strong> {valueFrom &&(valueFrom as Airport).name}</p>
                       <div className='flex flex-col'>
                         <p className="md:text-md text-sm font-inter"><strong>To:</strong> {valueTo && (valueTo as Airport).name}</p>
@@ -178,8 +178,8 @@ function App() {
               </div>
           </div>
           
-          <div className={`${isLandscape ? 'w-2/3' : 'w-full'} h-full`}>
-            <div className={`w-full text-white md:mt-0 mt-1 rounded-xl overflow-hidden grow h-full`} id="map">
+          <div className={`${isLandscape ? 'w-2/3' : 'w-full'} h-full rounded-xl overflow-hidden`}>
+            <div className={`w-full text-white md:mt-0 rounded-xl overflow-hidden grow h-full`} id="map">
               <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
               </Wrapper>
             </div>
