@@ -122,7 +122,7 @@ function App() {
     <div className="flex flex-col md:p-20 md:px-5 px-2 pt-5 md:pb-5 p-1 min-h-screen w-full items-center">
       <h1 className="md:text-3xl text-2xl font-bold text-black font-inter">Airports distance calculator</h1>
       <div className={`flex ${isLandscape ? 'flex-row' : 'flex-col'} md:justify-between md:mt-12 mt-4 md:h-2/3 h-full w-full md:w-2/3 bg-white rounded-xl p-1`}>
-        <div className={`${isLandscape ? ':w-1/3' : 'w-full'} text-white flex flex-col`}>
+        <div className={`${isLandscape ? 'w-1/3' : 'w-full'} text-white flex flex-col`}>
           <div className="rounded-xl bg-white md:p-4 p-2">
             <TextFieldWrapper
               id="airport-from"
@@ -167,7 +167,7 @@ function App() {
             </div>
         </div>
         
-        <div className={`${isLandscape ? ':w-2/3' : 'w-full'} text-white md:p-20 p-8 md:mt-0 mt-1 rounded-xl grow overflow-hidden`} id="map">
+        <div className={`${isLandscape ? 'w-2/3' : 'w-full'} text-white md:p-20 p-8 md:mt-0 mt-1 rounded-xl grow overflow-hidden`} id="map">
             <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
               {/* <div id="map"></div> */}
             </Wrapper>
