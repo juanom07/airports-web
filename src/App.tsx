@@ -104,7 +104,7 @@ function App() {
     })
 
     const domMap = document.getElementById('map');
-    if (!map && domMap){
+    if (!map && domMap && window.google){
       const mapa = new window.google.maps.Map(domMap as HTMLElement, {
         center,
         zoom: 4
