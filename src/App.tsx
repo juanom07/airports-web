@@ -105,14 +105,12 @@ function App() {
 
     const domMap = document.getElementById('map');
     if (!map && domMap){
-      setTimeout(() => {
-        const mapa = new window.google.maps.Map(domMap as HTMLElement, {
-          center,
-          zoom: 4
-        });
-    
-        setMap(mapa);
-      }, 1000)
+      const mapa = new window.google.maps.Map(domMap as HTMLElement, {
+        center,
+        zoom: 4
+      });
+  
+      setMap(mapa);
     }
   }, []);
 
