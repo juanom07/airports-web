@@ -130,58 +130,61 @@ function App() {
   const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
   return (
     <div className="flex flex-col md:p-20 md:px-5 px-2 pt-5 md:pb-5 p-1 min-h-screen w-full items-center">
-      <h1 className="md:text-3xl text-2xl font-bold text-black font-inter">Airports distance calculator</h1>
-      <div className={`flex ${isLandscape ? 'flex-row' : 'flex-col'} md:justify-between md:mt-12 mt-4 md:h-2/3 h-full w-full md:w-2/3 bg-white rounded-xl p-1`}>
-        <div className={`${isLandscape ? 'w-1/3' : 'w-full'} text-white flex flex-col`}>
-          <div className="rounded-xl bg-white md:p-4 p-2">
-            <TextFieldWrapper
-              id="airport-from"
-              getAirportsOptions={getAirportsOptions}
-              label="From"
-              className=""
-              value={valueFrom}
-              setValue={setValueFrom}
-            />
-            <TextFieldWrapper
-              className="md:mt-6 mt-4 w-full"
-              id="airport-to"
-              label="To"
-              getAirportsOptions={getAirportsOptions}
-              value={valueTo}
-              setValue={setValueTo}
-            />
-            
-          </div>
-            <div className="rounded-xl md:mt-4 mt-2 bg-white md:px-4 px-2">
-              <div className="text-dark-blue w-full flex flex-col">
-                <p className="mb-2 text-xl font-bold font-inter">Distance information:</p>
-                <div className='flex'>
-                  <div className='h-24 md:h-36 w-1/12 flex flex-col items-baseline justify-center'>
-                    <div className='rounded-full flex ml-0.5 mb-1'>
-                      <FiberManualRecordOutlined sx={{color:'grey'}} />
+      <div className="flex flex-col bg-white rounded-xl flex md:min-h-2/3 h-full w-full md:w-2/3 p-1">
+        <h1 className="md:text-2xl text-lg font-bold text-black font-inter py-1 px-2">Airports distance calculator</h1>
+        <div className={`flex ${isLandscape ? 'flex-row' : 'flex-col'} md:justify-between h-full w-full`}>
+          <div className={`${isLandscape ? 'w-1/3' : 'w-full'} text-white flex flex-col`}>
+            <div className="rounded-xl bg-white p-2">
+              <TextFieldWrapper
+                id="airport-from"
+                getAirportsOptions={getAirportsOptions}
+                label="From"
+                className=""
+                value={valueFrom}
+                setValue={setValueFrom}
+              />
+              <TextFieldWrapper
+                className="md:mt-6 mt-4 w-full"
+                id="airport-to"
+                label="To"
+                getAirportsOptions={getAirportsOptions}
+                value={valueTo}
+                setValue={setValueTo}
+              />
+              
+            </div>
+              <div className="rounded-xl md:mt-4 mt-2 bg-white px-2">
+                <div className="text-dark-blue w-full flex flex-col">
+                  <p className="mb-2 text-xl font-bold font-inter">Distance information:</p>
+                  <div className='flex'>
+                    <div className='h-24 md:h-36 flex flex-col items-baseline justify-center min-w-4'>
+                      <div className='rounded-full flex mb-1'>
+                        <FiberManualRecordOutlined sx={{color:'grey'}} />
+                      </div>
+                      <div className='h-full m-auto border-l-4 border-dotted border-grey'></div>
+                      <div className='pb-2  pt-1'>
+                        <Flight sx={{transform: "rotate(180deg)"}}/>
+                      </div>
                     </div>
-                    <div className='h-full m-auto border-l-4 border-dotted border-grey'></div>
-                    <div className='pb-2  pt-1'>
-                      <Flight sx={{transform: "rotate(180deg)"}}/>
-                    </div>
-                  </div>
-                  <div className='h-24 md:h-36 flex flex-col justify-between pl-2'>
-                    <p className="md:text-md text-sm font-inter"><strong>From:</strong> {valueFrom &&(valueFrom as Airport).name}</p>
-                    <div className='flex flex-col'>
-                      <p className="md:text-md text-sm font-inter"><strong>To:</strong> {valueTo && (valueTo as Airport).name}</p>
-                      <p className="md:text-md text-md font-inter font-bold">NMI: {distance && distance.toFixed(2)}</p>
+                    <div className='h-24 md:h-36 flex flex-col justify-between pl-2'>
+                      <p className="md:text-md text-sm font-inter"><strong>From:</strong> {valueFrom &&(valueFrom as Airport).name}</p>
+                      <div className='flex flex-col'>
+                        <p className="md:text-md text-sm font-inter"><strong>To:</strong> {valueTo && (valueTo as Airport).name}</p>
+                        <p className="md:text-md text-md font-inter font-bold">NMI: {distance && distance.toFixed(2)}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-        </div>
-        
-        <div className={`${isLandscape ? 'w-2/3' : 'w-full'} text-white md:p-20 p-8 md:mt-0 mt-1 rounded-xl grow overflow-hidden`} id="map">
-            <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
-              {/* <div id="map"></div> */}
-            </Wrapper>
           </div>
+          
+          <div className={`${isLandscape ? 'w-2/3' : 'w-full'} h-full`}>
+            <div className={`w-full text-white md:mt-0 mt-1 rounded-xl overflow-hidden grow h-full`} id="map">
+              <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
+              </Wrapper>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
