@@ -114,7 +114,7 @@ function App() {
     // window.screen.orientation.addEventListener('change', function(e) { 
     //   setIsLandscape(window.screen.orientation.type === 'landscape-primary')
     // })
-
+    setIsLandscape(true)
     return () => {
       setMap(null);
     }
