@@ -14,7 +14,7 @@ function App() {
   const [valueFrom, setValueFrom] = useState<Airport | null>(null);
   const [valueTo, setValueTo] = useState<Airport | null>(null);
   const [distance, setDistance] = useState<number | null>();
-  const [map, setMap] = useState<google.maps.Map>();
+  const [map, setMap] = useState<google.maps.Map | null>(null);
   const [line, setLine] = useState<google.maps.Polyline>();
   const [markerFrom, setMarkerFrom] = useState<google.maps.Marker>();
   const [markerTo, setMarkerTo] = useState<google.maps.Marker>();
@@ -98,31 +98,25 @@ function App() {
     }
   }, [valueFrom, valueTo]);
 
-  const loadScript = () => {
-    const url = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54`;
-  
-    const s = document.createElement("script");
-    s.src = url;
-    document.head.appendChild(s);
-    s.onload = function(e){
-      const domMap = document.getElementById('map');
-    
+  useEffect(() => {
+    const domMap = document.getElementById('map');
+    if (!map && domMap && window.google){
       const mapa = new window.google.maps.Map(domMap as HTMLElement, {
         center,
         zoom: 4
       });
   
-      setMap(mapa);        
+      setMap(mapa);
     }
-  }
+  }, [map, window.google])
 
   useEffect(() => {
     window.screen.orientation.addEventListener('change', function(e) { 
       setIsLandscape(window.screen.orientation.type === 'landscape-primary')
     })
-    
-    if (!map){
-      loadScript();
+
+    return () => {
+      setMap(null);
     }
   }, []);
 
