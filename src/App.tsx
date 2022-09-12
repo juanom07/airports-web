@@ -22,6 +22,7 @@ function App() {
   const [line, setLine] = useState<google.maps.Polyline>();
   const [markerFrom, setMarkerFrom] = useState<google.maps.Marker>();
   const [markerTo, setMarkerTo] = useState<google.maps.Marker>();
+  const [isLandscape, setIsLandscape] = useState<boolean>(true);
   
   const getAirportsOptions = async (term: string, saveData: Function, saveState: Function) => {
     saveState(term);
@@ -102,6 +103,10 @@ function App() {
   }, [valueFrom, valueTo]);
 
   useEffect(() => {
+    window.screen.orientation.addEventListener('change', function(e) { 
+      setIsLandscape(window.screen.orientation.type === 'landscape-primary')
+    })
+
     const domMap = document.getElementById('map');
     if (!map && domMap){
       const mapa = new window.google.maps.Map(domMap as HTMLElement, {
@@ -117,8 +122,8 @@ function App() {
   return (
     <div className="flex flex-col md:p-20 md:px-5 px-2 pt-5 md:pb-5 p-1 min-h-screen w-full items-center">
       <h1 className="md:text-3xl text-2xl font-bold text-black font-inter">Airports distance calculator</h1>
-      <div className="flex flex-col md:flex-row md:justify-between md:mt-12 mt-4 md:h-2/3 h-full w-full md:w-2/3 bg-white rounded-xl p-1">
-        <div className="md:w-1/3 w-full text-white flex flex-col">
+      <div className={`flex ${isLandscape ? 'flex-row' : 'flex-col'} md:justify-between md:mt-12 mt-4 md:h-2/3 h-full w-full md:w-2/3 bg-white rounded-xl p-1`}>
+        <div className={`${isLandscape ? ':w-1/3' : 'w-full'} text-white flex flex-col`}>
           <div className="rounded-xl bg-white md:p-4 p-2">
             <TextFieldWrapper
               id="airport-from"
@@ -155,7 +160,7 @@ function App() {
                     <p className="md:text-md text-sm font-inter"><strong>From:</strong> {valueFrom &&(valueFrom as Airport).name}</p>
                     <div className='flex flex-col'>
                       <p className="md:text-md text-sm font-inter"><strong>To:</strong> {valueTo && (valueTo as Airport).name}</p>
-                      <p className="md:text-md text-sm font-inter"><strong>NMI:</strong> {distance && distance.toFixed(2)}</p>
+                      <p className="md:text-md text-md font-inter font-bold">NMI: {distance && distance.toFixed(2)}</p>
                     </div>
                   </div>
                 </div>
@@ -163,7 +168,7 @@ function App() {
             </div>
         </div>
         
-        <div className="md:w-2/3 text-white md:p-20 p-8 md:mt-0 mt-1 rounded-xl grow overflow-hidden" id="map">
+        <div className={`${isLandscape ? ':w-2/3' : 'w-full'} text-white md:p-20 p-8 md:mt-0 mt-1 rounded-xl grow overflow-hidden`} id="map">
             <Wrapper apiKey={"AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"}>
               <div id="map"></div>
             </Wrapper>
