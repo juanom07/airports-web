@@ -112,7 +112,7 @@ function App() {
         });
     
         setMap(mapa);
-      }, 500)
+      }, 1000)
     }
   }, []);
 
