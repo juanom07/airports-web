@@ -130,11 +130,11 @@ function App() {
   const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
   return (
     <div className="flex flex-col md:p-20 md:px-5 px-2 pt-5 md:pb-5 p-1 min-h-screen w-full items-center">
-      <div className="flex flex-col bg-white rounded-xl flex md:min-h-2/3 h-full w-full md:w-2/3 p-1">
-        <h1 className="md:text-2xl text-lg font-bold text-black font-inter py-1 px-2">Airports distance calculator</h1>
+      <div className="flex bg-white rounded-xl flex md:min-h-2/3 h-full w-full md:w-2/3 sm:w-7/8 p-1">
         <div className={`flex ${isLandscape ? 'flex-row' : 'flex-col'} md:justify-between h-full w-full`}>
           <div className={`${isLandscape ? 'w-1/3' : 'w-full'} text-white flex flex-col`}>
-            <div className="rounded-xl bg-white p-2">
+            <div className="rounded-xl bg-white px-2 py-1">
+              <h1 className="text-lg font-bold text-black font-inter pb-2">Airports distance calculator</h1>
               <TextFieldWrapper
                 id="airport-from"
                 getAirportsOptions={getAirportsOptions}
