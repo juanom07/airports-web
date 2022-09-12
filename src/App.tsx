@@ -8,6 +8,7 @@ import { Airport } from './interfaces/airport';
 import airplane from './assets/airplane.png';
 import { Flight, FiberManualRecordOutlined } from '@mui/icons-material';
 import TextFieldWrapper from './components/TextFieldWrapper'
+import { Loader } from '@googlemaps/js-api-loader';
 
 
 function App() {
@@ -99,15 +100,25 @@ function App() {
   }, [valueFrom, valueTo]);
 
   useEffect(() => {
-    const domMap = document.getElementById('map');
-    if (!map && domMap && window.google){
-      const mapa = new window.google.maps.Map(domMap as HTMLElement, {
-        center,
-        zoom: 4
+    
+
+    const loader = new Loader({
+      apiKey: "AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"
+    });
+
+    loader
+      .load()
+      .then((google) => {
+        const domMap = document.getElementById('map');
+        if (!map && domMap && window.google){
+          const mapa = new window.google.maps.Map(domMap as HTMLElement, {
+            center,
+            zoom: 4
+          });
+      
+          setMap(mapa);
+        }
       });
-  
-      setMap(mapa);
-    }
   }, [map, window.google])
 
   useEffect(() => {
