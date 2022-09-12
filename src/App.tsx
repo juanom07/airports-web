@@ -120,7 +120,10 @@ function App() {
     window.screen.orientation.addEventListener('change', function(e) { 
       setIsLandscape(window.screen.orientation.type === 'landscape-primary')
     })
-    loadScript();
+    
+    if (!map){
+      loadScript();
+    }
   }, []);
 
   const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
