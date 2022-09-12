@@ -98,20 +98,29 @@ function App() {
     }
   }, [valueFrom, valueTo]);
 
-  useEffect(() => {
-    window.screen.orientation.addEventListener('change', function(e) { 
-      setIsLandscape(window.screen.orientation.type === 'landscape-primary')
-    })
-
-    const domMap = document.getElementById('map');
-    if (!map && domMap && window.google){
+  const loadScript = () => {
+    const url = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54`;
+  
+    const s = document.createElement("script");
+    s.src = url;
+    document.head.appendChild(s);
+    s.onload = function(e){
+      const domMap = document.getElementById('map');
+    
       const mapa = new window.google.maps.Map(domMap as HTMLElement, {
         center,
         zoom: 4
       });
   
-      setMap(mapa);
+      setMap(mapa);        
     }
+  }
+
+  useEffect(() => {
+    window.screen.orientation.addEventListener('change', function(e) { 
+      setIsLandscape(window.screen.orientation.type === 'landscape-primary')
+    })
+    loadScript();
   }, []);
 
   const center: google.maps.LatLngLiteral = {lat: 39.7578721, lng: -101.4895165};
