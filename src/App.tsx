@@ -111,9 +111,9 @@ function App() {
   }, [map, window.google])
 
   useEffect(() => {
-    window.screen.orientation.addEventListener('change', function(e) { 
-      setIsLandscape(window.screen.orientation.type === 'landscape-primary')
-    })
+    // window.screen.orientation.addEventListener('change', function(e) { 
+    //   setIsLandscape(window.screen.orientation.type === 'landscape-primary')
+    // })
 
     return () => {
       setMap(null);
