@@ -111,10 +111,7 @@ function App() {
   }, [map, window.google])
 
   useEffect(() => {
-    // window.screen.orientation.addEventListener('change', function(e) { 
-    //   setIsLandscape(window.screen.orientation.type === 'landscape-primary')
-    // })
-    setIsLandscape(true)
+    setIsLandscape(window.matchMedia("(orientation: portrait)").matches)
     return () => {
       setMap(null);
     }
