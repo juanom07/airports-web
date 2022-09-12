@@ -11,27 +11,17 @@ import airplane from './assets/airplane.png';
 import { useMediaQuery, CircularProgress } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Flight, FiberManualRecordOutlined } from '@mui/icons-material';
+import TextFieldWrapper from './components/TextFieldWrapper'
 
 
 function App() {
-  const [airportsFrom, setAirportsFrom] = useState<Airport[] | []>([]);
-  const [airportsTo, setAirportsTo] = useState<Airport[] | []>([]);
-  
   const [valueFrom, setValueFrom] = useState<Airport | null>(null);
-  const [inputValue, setInputValue] = useState('');
-  
   const [valueTo, setValueTo] = useState<Airport | null>(null);
-  const [inputValueTo, setInputValueTo] = useState('');
-  const [loadingFrom, setLoadingFrom] = useState(false);
-  const [loadingTo, setLoadingTo] = useState(false);
-  
   const [distance, setDistance] = useState<number | null>();
   const [map, setMap] = useState<google.maps.Map>();
   const [line, setLine] = useState<google.maps.Polyline>();
   const [markerFrom, setMarkerFrom] = useState<google.maps.Marker>();
   const [markerTo, setMarkerTo] = useState<google.maps.Marker>();
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   
   const getAirportsOptions = async (term: string, saveData: Function, saveState: Function) => {
     saveState(term);
@@ -130,70 +120,21 @@ function App() {
       <div className="flex flex-col md:flex-row md:justify-between md:mt-12 mt-4 md:h-2/3 h-full w-full md:w-2/3 bg-white rounded-xl p-1">
         <div className="md:w-1/3 w-full text-white flex flex-col">
           <div className="rounded-xl bg-white md:p-4 p-2">
-            <Autocomplete
-              className=""
-              onChange={(event: any, newValue: any) => {
-                setValueFrom(newValue);
-              }}
-              value={valueFrom}
-              inputValue={inputValue}
-              loading={loadingFrom}
-              onInputChange={async (event, newInputValue) => {
-                setLoadingFrom(true)
-                try {
-                  await getAirportsOptions(newInputValue, setAirportsFrom, setInputValue)
-                  setLoadingFrom(false)
-                } catch (error) {
-                  setLoadingFrom(false)
-                }
-              }}
+            <TextFieldWrapper
               id="airport-from"
-              options={airportsFrom}    
-              getOptionLabel={ (option: string | Airport) => `${(option as Airport).iata} - ${(option as Airport).name}`}
-              renderInput={(params) => <TextField {...params} label="From" size={`${isSmallScreen ? 'small' : 'medium'}`} InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <React.Fragment>
-                    {loadingFrom ? (
-                      <CircularProgress size={20}/>
-                    ) : null}
-                    {params.InputProps.endAdornment}
-                  </React.Fragment>
-                ),
-              }}/>}
+              getAirportsOptions={getAirportsOptions}
+              label="From"
+              className=""
+              value={valueFrom}
+              setValue={setValueFrom}
             />
-            <Autocomplete
+            <TextFieldWrapper
               className="md:mt-6 mt-4 w-full"
-              value={valueTo}
-              onChange={(event: any, newValue: any) => {
-                setValueTo(newValue);
-              }}
-              inputValue={inputValueTo}
-              loading={loadingTo}
-              onInputChange={async (event, newInputValue) => {
-                setLoadingTo(true);
-                try {
-                  await getAirportsOptions(newInputValue, setAirportsTo, setInputValueTo)
-                  setLoadingTo(false);
-                } catch (error) {
-                  setLoadingTo(false);
-                }
-              }}
               id="airport-to"
-              options={airportsTo}
-              getOptionLabel={ (option: string | Airport) => `${(option as Airport).iata} - ${(option as Airport).name}`}
-              sx={{ width: '100%' }}
-              renderInput={(params) => <TextField {...params} label="To" size={`${isSmallScreen ? 'small' : 'medium'}`} InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <React.Fragment>
-                    {loadingTo ? (
-                      <CircularProgress size={20}/>
-                    ) : null}
-                    {params.InputProps.endAdornment}
-                  </React.Fragment>
-                ),
-              }}/>}
+              label="To"
+              getAirportsOptions={getAirportsOptions}
+              value={valueTo}
+              setValue={setValueTo}
             />
             
           </div>
