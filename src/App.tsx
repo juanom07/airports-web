@@ -100,8 +100,6 @@ function App() {
   }, [valueFrom, valueTo]);
 
   useEffect(() => {
-    
-
     const loader = new Loader({
       apiKey: "AIzaSyCXusc3Z113wp1oh98OGoYgQLwEwAoRY54"
     });
@@ -122,6 +120,7 @@ function App() {
   }, [map, window.google])
 
   useEffect(() => {
+    window.addEventListener("resize", () => setIsLandscape(!window.matchMedia("(orientation: portrait)").matches));
     setIsLandscape(!window.matchMedia("(orientation: portrait)").matches)
     return () => {
       setMap(null);
